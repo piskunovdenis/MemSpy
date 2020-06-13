@@ -65,14 +65,14 @@ namespace ms
 			}
 		}
 
-		std::vector<DWORD_PTR> u16FoundAddresses;
-		std::vector<DWORD_PTR> u8FoundAddresses;
+		std::vector<DWORD_PTR> foundUTF16Addresses;
+		std::vector<DWORD_PTR> foundUTF8Addresses;
 
 		PrintSearchingInfo();
 		while (m_LoopIter > 0)
 		{
-			u16FoundAddresses.clear();
-			u8FoundAddresses.clear();
+			foundUTF16Addresses.clear();
+			foundUTF8Addresses.clear();
 
 			DWORD pid;
 			if (!ms::Process::IsProcessRunning(m_ProcessFileName, pid))
@@ -122,7 +122,7 @@ namespace ms
 							void* lpSourceDump = (void*)((DWORD_PTR)dump.Memory() + i);
 							if (memcmp(lpSourceDump, m_UTF16Secret.c_str(), m_UTF16SecretByteCount) == 0)
 							{
-								u8FoundAddresses.push_back(DWORD_PTR(mbi.BaseAddress) + DWORD_PTR(i));
+								foundUTF8Addresses.push_back(DWORD_PTR(mbi.BaseAddress) + DWORD_PTR(i));
 							}
 						}
 						// utf8 secret
@@ -131,7 +131,7 @@ namespace ms
 							void* lpSourceDump = (void*)((DWORD_PTR)dump.Memory() + i);
 							if (memcmp(lpSourceDump, m_UTF8Secret.c_str(), m_UTF8SecretByteCount) == 0)
 							{
-								u8FoundAddresses.push_back(DWORD_PTR(mbi.BaseAddress) + DWORD_PTR(i));
+								foundUTF8Addresses.push_back(DWORD_PTR(mbi.BaseAddress) + DWORD_PTR(i));
 							}
 						}
 					}
@@ -140,14 +140,14 @@ namespace ms
 			}
 
 			PrintSearchingInfo();
-			if (!u16FoundAddresses.empty() || !u8FoundAddresses.empty())
+			if (!foundUTF16Addresses.empty() || !foundUTF8Addresses.empty())
 			{
-				std::wcout << L"Found secrets count: " << u16FoundAddresses.size() + u8FoundAddresses.size() << std::endl;
-				for (auto i : u16FoundAddresses)
+				std::wcout << L"Found secrets count: " << foundUTF16Addresses.size() + foundUTF8Addresses.size() << std::endl;
+				for (auto i : foundUTF16Addresses)
 				{
 					std::wcout << L"Found UTF16 secret at: 0x" << std::hex << i << std::endl;
 				}
-				for (auto i : u8FoundAddresses)
+				for (auto i : foundUTF8Addresses)
 				{
 					std::wcout << L"Found UTF8 secret at: 0x" << std::hex << i << std::endl;
 				}
@@ -156,7 +156,7 @@ namespace ms
 			{
 				std::wcout << L"Secret is not found!" << std::endl;
 			}
-			Wait(u16FoundAddresses.size() + u8FoundAddresses.size());
+			Wait(foundUTF16Addresses.size() + foundUTF8Addresses.size());
 		}
 		return m_ExitCode;
 	}
