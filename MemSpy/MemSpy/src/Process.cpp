@@ -33,10 +33,6 @@ namespace ms
 	{
 		DWORD bufferLength = MAX_PATH;
 		std::vector<wchar_t> buffer(bufferLength);
-		if (GetModuleFileNameExW(m_Handle, 0, &buffer[0], bufferLength) != 0)
-		{
-			return &buffer[0];
-		}
 		if (QueryFullProcessImageNameW(m_Handle, 0, &buffer[0], &bufferLength))
 		{
 			return &buffer[0];
