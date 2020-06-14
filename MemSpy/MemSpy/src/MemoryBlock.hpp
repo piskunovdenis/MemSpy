@@ -23,6 +23,9 @@ namespace ms
 		{
 			ZeroMemory(m_Memory, m_Length);
 			free(m_Memory);
+
+			m_Length = 0;
+			m_Memory = nullptr;
 		}
 
 		DWORD_PTR Length() const

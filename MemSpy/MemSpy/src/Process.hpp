@@ -19,7 +19,7 @@ namespace ms
 	private:
 		static const int kMaxProcessCount = 1024;
 
-		DWORD m_pid;
+		DWORD m_ProcessId;
 		HANDLE m_Handle;
 	};
 }

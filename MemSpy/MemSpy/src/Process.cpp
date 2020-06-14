@@ -9,10 +9,10 @@
 
 namespace ms
 {
-	Process::Process(DWORD desiredAccess, DWORD pid)
+	Process::Process(DWORD desiredAccess, DWORD processId)
 	{
-		m_pid = m_pid;
-		m_Handle = OpenProcess(desiredAccess, FALSE, m_pid);
+		m_ProcessId = m_ProcessId;
+		m_Handle = OpenProcess(desiredAccess, FALSE, m_ProcessId);
 		if (m_Handle == nullptr)
 		{
 			throw std::runtime_error("OpenProcess failed");
@@ -48,30 +48,30 @@ namespace ms
 		}
 
 		DWORD processCount;
-		std::vector<DWORD> pids(kMaxProcessCount);
-		if (!::EnumProcesses(&pids[0], pids.size() * sizeof(DWORD), &processCount)) // !! size()
+		std::vector<DWORD> processIds(kMaxProcessCount);
+		if (!::EnumProcesses(&processIds[0], kMaxProcessCount * sizeof(DWORD), &processCount))
 			return;
 
 		processCount = processCount / sizeof(DWORD);
-		pids.resize(processCount);
+		processIds.resize(processCount);
 
-		for (auto pid : pids)
+		for (auto processId : processIds)
 		{
-			if (enumerator(pid))
+			if (enumerator(processId))
 				return;
 		}
 	}
 
-	bool Process::IsProcessRunning(std::wstring fileName, DWORD& rPID)
+	bool Process::IsProcessRunning(std::wstring fileName, DWORD& rProcessId)
 	{
 		if (fileName.empty())
 		{
 			throw std::invalid_argument("fileName is empty");
 		}
 
-		rPID = 0;
+		rProcessId = 0;
 		Process::EnumProcesses(
-			[fileName, &rPID](DWORD pid) -> bool
+			[fileName, &rProcessId](DWORD pid) -> bool
 			{
 				if (pid != 0)
 				{
@@ -80,7 +80,7 @@ namespace ms
 					{
 						if (ms::WString::Compare(processFileName, fileName))
 						{
-							rPID = pid;
+							rProcessId = pid;
 							return true;
 						}
 					}
@@ -88,6 +88,6 @@ namespace ms
 				return false;
 			}
 		);
-		return rPID != 0;
+		return rProcessId != 0;
 	}
 }
