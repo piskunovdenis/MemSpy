@@ -156,7 +156,7 @@ namespace ms
 			{
 				std::wcout << L"Secret is not found!" << std::endl;
 			}
-			Wait(foundUTF16Addresses.size() + foundUTF8Addresses.size());
+			Wait(static_cast<DWORD>(foundUTF16Addresses.size() + foundUTF8Addresses.size()));
 		}
 		return m_ExitCode;
 	}
@@ -200,7 +200,7 @@ namespace ms
 		}
 	}
 
-	void Application::Wait(int exitCode)
+	void Application::Wait(DWORD exitCode)
 	{
 		m_LoopIter--;
 		if (m_UseLoop)

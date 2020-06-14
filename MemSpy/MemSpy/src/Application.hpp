@@ -33,6 +33,6 @@ namespace ms
 		void PrintSearchingInfo();
 		void PrintSearchingAttempt();
 
-		void Wait(int exitCode);
+		void Wait(DWORD exitCode);
 	};
 }
