@@ -8,14 +8,14 @@ namespace ms
 	class Process
 	{
 	public:
-		Process(DWORD desiredAccess, DWORD pid);
+		Process(DWORD desiredAccess, DWORD processId);
 		~Process();
 
 		HANDLE Handle() const;
 		std::wstring FileName() const;
 
 		static void EnumProcesses(std::function<bool(DWORD pid)> enumerator);
-		static bool IsProcessRunning(std::wstring fileName, DWORD& rPID);
+		static bool IsProcessRunning(std::wstring fileName, DWORD& rProcessId);
 	private:
 		static const int kMaxProcessCount = 1024;
 
