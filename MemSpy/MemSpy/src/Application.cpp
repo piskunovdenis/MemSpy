@@ -10,7 +10,7 @@
 
 namespace ms
 {
-	int Application::Run(ms::CommandLine cmd)
+	DWORD Application::Run(ms::CommandLine cmd)
 	{
 		if (cmd.FindParam(L"help"))
 		{
@@ -156,7 +156,7 @@ namespace ms
 			{
 				std::wcout << L"Secret is not found!" << std::endl;
 			}
-			Wait(static_cast<DWORD>(foundUTF16Addresses.size() + foundUTF8Addresses.size()));
+			Wait(static_cast<int>(foundUTF16Addresses.size() + foundUTF8Addresses.size()));
 		}
 		return m_ExitCode;
 	}
@@ -200,7 +200,7 @@ namespace ms
 		}
 	}
 
-	void Application::Wait(DWORD exitCode)
+	void Application::Wait(int exitCode)
 	{
 		m_LoopIter--;
 		if (m_UseLoop)

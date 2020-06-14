@@ -10,7 +10,7 @@ namespace ms
 	class Application
 	{
 	public:
-		int Run(ms::CommandLine cmd);
+		DWORD Run(ms::CommandLine cmd);
 	private:
 		std::wstring m_UTF16Secret = L"";
 		DWORD_PTR m_UTF16SecretByteCount = 0;
@@ -24,7 +24,7 @@ namespace ms
 		DWORD m_LoopIter = 1;
 		DWORD m_LoopTimeout = 500;
 
-		DWORD m_ExitCode = 0;
+		int m_ExitCode = 0;
 
 		CONSOLE_SCREEN_BUFFER_INFO m_csbi;
 		COORD m_SearchingAttemptCursorPos;
@@ -33,6 +33,6 @@ namespace ms
 		void PrintSearchingInfo();
 		void PrintSearchingAttempt();
 
-		void Wait(DWORD exitCode);
+		void Wait(int exitCode);
 	};
 }

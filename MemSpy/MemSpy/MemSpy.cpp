@@ -12,5 +12,5 @@ int _tmain(int argc, TCHAR** argv)
 	ms::CommandLine cmd(argc, argv);
 
 	ms::Application app;
-	app.Run(cmd);
+	return app.Run(cmd);
 }
