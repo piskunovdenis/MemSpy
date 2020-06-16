@@ -15,6 +15,14 @@ namespace ms
 		m_Handle = OpenProcess(desiredAccess, FALSE, m_ProcessId);
 	}
 
+	Process::Process(Process&& other) : 
+		m_ProcessId(0),
+		m_Handle(nullptr)
+	{
+		std::swap(m_ProcessId, other.m_ProcessId);
+		std::swap(m_ProcessId, other.m_ProcessId);
+	}
+
 	Process::~Process()
 	{
 		CloseHandle(m_Handle);

@@ -9,7 +9,12 @@ namespace ms
 	{
 	public:
 		Process(DWORD desiredAccess, DWORD processId);
+		Process(Process&& other);
+		Process(const Process&) = delete;
 		~Process();
+
+		Process& operator=(Process&&) = delete;
+		Process& operator=(const Process&) = delete;
 
 		HANDLE Handle() const;
 		std::wstring FileName() const;

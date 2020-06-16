@@ -8,7 +8,12 @@ namespace ms
 	{
 	public:
 		MemoryBlock(DWORD_PTR length);
+		MemoryBlock(MemoryBlock&& other);
+		MemoryBlock(const MemoryBlock&) = delete;
 		~MemoryBlock();
+
+		MemoryBlock& operator=(MemoryBlock&&) = delete;
+		MemoryBlock& operator=(const MemoryBlock&) = delete;
 
 		DWORD_PTR Length() const;
 		void* Memory() const;
