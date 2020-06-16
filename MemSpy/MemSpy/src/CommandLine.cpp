@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 #include "CommandLine.hpp"
-#include "WString.hpp"
+#include "WideString.hpp"
 
 namespace ms
 {
@@ -13,10 +13,6 @@ namespace ms
 	CommandLine::CommandLine(int argc, _TCHAR* argv[]) :
 		m_Arguments(argv + 1, argv + argc)
 	{
-		for (auto& i : m_Arguments)
-		{
-			ms::WString::ToLower(i);
-		}
 	}
 
 	bool CommandLine::FindParam(std::wstring searchingParamName) const
@@ -32,9 +28,9 @@ namespace ms
 			std::wstring paramValue;
 			ParseParam(i, paramName, paramValue);
 
-			if (ms::WString::Compare(paramName, searchingParamName) ||
-				ms::WString::Compare(L"-" + paramName, searchingParamName) ||
-				ms::WString::Compare(L"/" + paramName, searchingParamName))
+			if (ms::WideString::Compare(paramName, searchingParamName) ||
+				ms::WideString::Compare(L"-" + paramName, searchingParamName) ||
+				ms::WideString::Compare(L"/" + paramName, searchingParamName))
 			{
 				return true;
 			}
@@ -55,7 +51,7 @@ namespace ms
 			std::wstring paramValue;
 			ParseParam(i, paramName, paramValue);
 
-			if (ms::WString::Compare(paramName, searchingParamName))
+			if (ms::WideString::Compare(paramName, searchingParamName))
 			{
 				return paramValue;
 			}

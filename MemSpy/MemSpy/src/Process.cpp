@@ -4,19 +4,15 @@
 #include <vector>
 
 #include "Process.hpp"
-#include "WString.hpp"
+#include "WideString.hpp"
 #include "Path.hpp"
 
 namespace ms
 {
-	Process::Process(DWORD desiredAccess, DWORD processId)
+	Process::Process(DWORD desiredAccess, DWORD processId) :
+		m_ProcessId(processId)
 	{
-		m_ProcessId = m_ProcessId;
 		m_Handle = OpenProcess(desiredAccess, FALSE, m_ProcessId);
-		if (m_Handle == nullptr)
-		{
-			throw std::runtime_error("OpenProcess failed");
-		}
 	}
 
 	Process::~Process()
@@ -78,7 +74,7 @@ namespace ms
 					Process process(PROCESS_QUERY_INFORMATION | PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_VM_READ, pid);
 					std::wstring processFileName = ms::Path::GetFileName(process.FileName());
 					{
-						if (ms::WString::Compare(processFileName, fileName))
+						if (ms::WideString::Compare(processFileName, fileName))
 						{
 							rProcessId = pid;
 							return true;

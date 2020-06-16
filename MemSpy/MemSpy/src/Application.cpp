@@ -1,12 +1,13 @@
 #include <windows.h>
 #include <string.h>
-#include <iostream>
+#include <limits>
 
 #include "Application.hpp"
 #include "CommandLine.hpp"
 #include "Process.hpp"
 #include "MemoryBlock.hpp"
 #include "Console.hpp"
+#include "WideString.hpp"
 
 namespace ms
 {
@@ -27,7 +28,7 @@ namespace ms
 		m_UTF16Secret = secret;
 		m_UTF16SecretByteCount = m_UTF16Secret.length() * sizeof(wchar_t);
 
-		m_UTF8Secret = "";// !! UTF16ToUTF8(SearchingString);
+		m_UTF8Secret = WideString::UTF16ToUTF8(m_UTF16Secret);
 		m_UTF8SecretByteCount = m_UTF8Secret.length() * sizeof(char);
 
 		std::wstring filename{ cmd.GetParamValue(L"filename") };
@@ -51,7 +52,7 @@ namespace ms
 			}
 			else
 			{
-				m_LoopIter = INT32_MAX;
+				m_LoopIter = (std::numeric_limits<DWORD>::max)();
 			}
 
 			std::wstring timeout{ cmd.GetParamValue(L"timeout") };
@@ -78,7 +79,7 @@ namespace ms
 			if (!ms::Process::IsProcessRunning(m_ProcessFileName, pid))
 			{
 				PrintSearchingInfo();
-				std::wcout << L"Can not find process with file name: " << m_ProcessFileName << std::endl;
+				Console::WriteLine(L"Can not find process with file name: " + m_ProcessFileName);
 
 				Wait(-3);
 				continue;
@@ -88,7 +89,7 @@ namespace ms
 			if (process.Handle() == INVALID_HANDLE_VALUE)
 			{
 				PrintSearchingInfo();
-				std::wcout << L"Can not open process #" << std::to_wstring(pid) << L" with file name: " << m_ProcessFileName << std::endl;
+				Console::WriteLine(L"Can not open process #" + std::to_wstring(pid) + L" with file name: " + m_ProcessFileName);
 
 				Wait(-4);
 				continue;
@@ -122,7 +123,7 @@ namespace ms
 							void* lpSourceDump = (void*)((DWORD_PTR)dump.Memory() + i);
 							if (memcmp(lpSourceDump, m_UTF16Secret.c_str(), m_UTF16SecretByteCount) == 0)
 							{
-								foundUTF8Addresses.push_back(DWORD_PTR(mbi.BaseAddress) + DWORD_PTR(i));
+								foundUTF16Addresses.push_back(DWORD_PTR(mbi.BaseAddress) + DWORD_PTR(i));
 							}
 						}
 						// utf8 secret
@@ -142,19 +143,19 @@ namespace ms
 			PrintSearchingInfo();
 			if (!foundUTF16Addresses.empty() || !foundUTF8Addresses.empty())
 			{
-				std::wcout << L"Found secrets count: " << foundUTF16Addresses.size() + foundUTF8Addresses.size() << std::endl;
+				Console::WriteLine(L"Found secrets count: " + std::to_wstring(foundUTF16Addresses.size() + foundUTF8Addresses.size()));
 				for (auto i : foundUTF16Addresses)
 				{
-					std::wcout << L"Found UTF16 secret at: 0x" << std::hex << i << std::endl;
+					Console::WriteLine(L"Found UTF16 secret at: 0x" + WideString::ToHex(i));
 				}
 				for (auto i : foundUTF8Addresses)
 				{
-					std::wcout << L"Found UTF8 secret at: 0x" << std::hex << i << std::endl;
+					Console::WriteLine(L"Found UTF8 secret at: 0x" + WideString::ToHex(i));
 				}
 			}
 			else
 			{
-				std::wcout << L"Secret is not found!" << std::endl;
+				Console::WriteLine(L"Secret is not found!");
 			}
 			Wait(static_cast<int>(foundUTF16Addresses.size() + foundUTF8Addresses.size()));
 		}
@@ -163,40 +164,42 @@ namespace ms
 
 	void Application::PrintHelp()
 	{
-		std::wcout << L"Usage: " << L"MemFind.exe [/secret=...] [/filename=...] [/loop [/iter=...] [/timeout=...]]" << std::endl;
-		std::wcout << L"  /secret - searching secret" << std::endl;
-		std::wcout << L"  /filename - process file name" << std::endl;
-		std::wcout << L"  /loop - search in loop" << std::endl;
-		std::wcout << L"	 /iter - number of loop iterations" << std::endl;
-		std::wcout << L"	 /timeout - sleep timeout in milliseconds after each loop" << std::endl;
+		Console::WriteLine(L"Usage: MemFind.exe [/secret=...] [/filename=...] [/loop [/iter=...] [/timeout=...]]");
+		Console::WriteLine(L"  /secret - searching secret");
+		Console::WriteLine(L"  /filename - process file name");
+		Console::WriteLine(L"  /loop - search in loop");
+		Console::WriteLine(L"	 /iter - number of loop iterations");
+		Console::WriteLine(L"	 /timeout - sleep timeout in milliseconds after each loop");
 		std::getchar();
 	}
 
 	void Application::PrintSearchingInfo()
 	{
-		ms::Console::ClearConsoleScreen();
-		std::wcout << L"Searching secret: " << m_UTF16Secret << std::endl;
-		std::wcout << L"Process file name: " << m_ProcessFileName << std::endl;
+		ms::Console::ClearScreen();
+		Console::WriteLine(std::wstring(L"Searching secret: ") + m_UTF16Secret);
+		Console::WriteLine(L"Process file name: " + m_ProcessFileName);
 		if (m_UseLoop)
 		{
-			std::wcout << L"Attempt timeout: " + std::to_wstring(m_LoopTimeout) << L" ms" << std::endl;
+			Console::WriteLine(L"Attempt timeout: " + std::to_wstring(m_LoopTimeout) + L" ms");
 
-			GetConsoleScreenBufferInfo(ms::Console::ConsoleOutput(), &m_csbi);
+			GetConsoleScreenBufferInfo(ms::Console::StdOutput(), &m_csbi);
 			m_SearchingAttemptCursorPos = m_csbi.dwCursorPosition;
 
-			std::wcout << L"Searching attempt #" << std::to_wstring(m_LoopIter) << L"..." << std::endl;
+			Console::WriteLine(L"Searching attempt #" + std::to_wstring(m_LoopIter) + L"...");
 		}
-		std::wcout << std::endl;
+		Console::WriteLine();
 	}
 
 	void Application::PrintSearchingAttempt()
 	{
 		if (m_UseLoop)
 		{
-			GetConsoleScreenBufferInfo(ms::Console::ConsoleOutput(), &m_csbi);
-			SetConsoleCursorPosition(ms::Console::ConsoleOutput(), m_SearchingAttemptCursorPos);
-			std::wcout << L"Searching attempt #" << std::to_wstring(m_LoopIter) << L"..." << std::endl << std::endl;
-			SetConsoleCursorPosition(ms::Console::ConsoleOutput(), m_csbi.dwCursorPosition);
+			GetConsoleScreenBufferInfo(ms::Console::StdOutput(), &m_csbi);
+			SetConsoleCursorPosition(ms::Console::StdOutput(), m_SearchingAttemptCursorPos);
+			Console::WriteLine(L"Searching attempt #" + std::to_wstring(m_LoopIter) + L"...");
+			Console::WriteLine();
+			Console::WriteLine();
+			SetConsoleCursorPosition(ms::Console::StdOutput(), m_csbi.dwCursorPosition);
 		}
 	}
 

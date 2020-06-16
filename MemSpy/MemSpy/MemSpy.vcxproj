@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MemoryBlock.cpp" />
     <ClCompile Include="MemSpy.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\CommandLine.cpp" />
@@ -163,7 +164,7 @@
     <ClInclude Include="src\MemoryBlock.hpp" />
     <ClInclude Include="src\Path.hpp" />
     <ClInclude Include="src\Process.hpp" />
-    <ClInclude Include="src\WString.hpp" />
+    <ClInclude Include="src\WideString.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

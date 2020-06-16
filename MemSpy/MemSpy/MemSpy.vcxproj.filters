@@ -30,6 +30,9 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryBlock.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CommandLine.hpp">
@@ -47,10 +50,10 @@
     <ClInclude Include="src\Process.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\WString.hpp">
+    <ClInclude Include="src\Application.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Application.hpp">
+    <ClInclude Include="src\WideString.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
