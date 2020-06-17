@@ -13,13 +13,13 @@ namespace ms
 {
 	DWORD Application::Run(ms::CommandLine cmd)
 	{
-		if (cmd.FindParam(L"help"))
+		if (cmd.FindParam(L"?"))
 		{
 			PrintHelp();
 			return 0;
 		}
 
-		std::wstring secret{ cmd.GetParamValue(L"secret") };
+		std::wstring secret{ cmd.GetParamValue(L"s") };
 		if (secret.empty())
 		{
 			return -1;
@@ -31,7 +31,7 @@ namespace ms
 		m_UTF8Secret = WideString::UTF16ToUTF8(m_UTF16Secret);
 		m_UTF8SecretByteCount = m_UTF8Secret.length() * sizeof(char);
 
-		std::wstring filename{ cmd.GetParamValue(L"filename") };
+		std::wstring filename{ cmd.GetParamValue(L"f") };
 		if (filename.empty())
 		{
 			return -2;
@@ -39,9 +39,9 @@ namespace ms
 
 		m_ProcessFileName = filename;
 
-		if (m_UseLoop = cmd.FindParam(L"loop"))
+		if (m_UseLoop = cmd.FindParam(L"l"))
 		{
-			std::wstring iter{ cmd.GetParamValue(L"iter") };
+			std::wstring iter{ cmd.GetParamValue(L"i") };
 			if (!iter.empty())
 			{
 				m_LoopIter = std::stoul(iter);
@@ -55,7 +55,7 @@ namespace ms
 				m_LoopIter = (std::numeric_limits<DWORD>::max)();
 			}
 
-			std::wstring timeout{ cmd.GetParamValue(L"timeout") };
+			std::wstring timeout{ cmd.GetParamValue(L"t") };
 			if (!timeout.empty())
 			{
 				m_LoopTimeout = std::stoul(timeout);
@@ -164,12 +164,12 @@ namespace ms
 
 	void Application::PrintHelp()
 	{
-		Console::WriteLine(L"Usage: MemFind.exe [/secret=...] [/filename=...] [/loop [/iter=...] [/timeout=...]]");
-		Console::WriteLine(L"  /secret - searching secret");
-		Console::WriteLine(L"  /filename - process file name");
-		Console::WriteLine(L"  /loop - search in loop");
-		Console::WriteLine(L"	 /iter - number of loop iterations");
-		Console::WriteLine(L"	 /timeout - sleep timeout in milliseconds after each loop");
+		Console::WriteLine(L"Usage: MemFind.exe [/s=...] [/f=...] [/l [/i=...] [/t=...]]");
+		Console::WriteLine(L"  /s - searching secret");
+		Console::WriteLine(L"  /f - process file name");
+		Console::WriteLine(L"  /l - search in loop");
+		Console::WriteLine(L"	 /i - number of loop iterations");
+		Console::WriteLine(L"	 /t - sleep timeout in milliseconds after each loop");
 		std::getchar();
 	}
 
