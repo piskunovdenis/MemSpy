@@ -151,10 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MemoryBlock.cpp" />
     <ClCompile Include="MemSpy.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\CommandLine.cpp" />
+    <ClCompile Include="src\MemoryBlock.cpp" />
     <ClCompile Include="src\Process.cpp" />
   </ItemGroup>
   <ItemGroup>

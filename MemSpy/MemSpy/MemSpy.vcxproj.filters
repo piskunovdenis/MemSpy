@@ -30,7 +30,7 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryBlock.cpp">
+    <ClCompile Include="src\MemoryBlock.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

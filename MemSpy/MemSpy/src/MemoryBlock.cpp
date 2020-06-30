@@ -12,7 +12,7 @@ namespace ms
 		m_Memory = malloc(m_Length);
 		if (m_Memory == nullptr)
 		{
-			throw std::runtime_error("malloc failed");
+			throw std::runtime_error("malloc() failed");
 		}
 		ZeroMemory(m_Memory, m_Length);
 	}
