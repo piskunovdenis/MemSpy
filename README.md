@@ -3,9 +3,9 @@
 Console utility to find footprints of sensitive data in process memory.
 
 Usage:  
-      MemSpy.exe [/s=...] [/f=...] [/l [/i=...] [/t=...]]  
-         /s - searching secret  
-         /f - process file name  
-         /l - search in loop  
-         /i - number of loop iterations  
-         /t - sleep timeout in milliseconds after each loop
+&nbsp;&nbsp;&nbsp;&nbsp;MemSpy.exe [/s=...] [/f=...] [/l [/i=...] [/t=...]]  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/s - searching secret  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/f - process file name  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/l - search in loop  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/i - number of loop iterations  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/t - sleep timeout in milliseconds after each loop
