@@ -164,7 +164,7 @@ namespace ms
 
 	void Application::PrintHelp()
 	{
-		Console::WriteLine(L"Usage: MemFind.exe [/s=...] [/f=...] [/l [/i=...] [/t=...]]");
+		Console::WriteLine(L"Usage: MemSpy.exe [/s=...] [/f=...] [/l [/i=...] [/t=...]]");
 		Console::WriteLine(L"  /s - searching secret");
 		Console::WriteLine(L"  /f - process file name");
 		Console::WriteLine(L"  /l - search in loop");
