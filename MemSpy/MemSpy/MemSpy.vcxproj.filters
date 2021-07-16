@@ -21,13 +21,22 @@
     <ClCompile Include="MemSpy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\CommandLine.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Process.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Application.cpp">
+    <ClCompile Include="src\Path.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WideString.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Console.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\MemoryBlock.cpp">
@@ -35,6 +44,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\CommandLine.hpp">
       <Filter>src</Filter>
     </ClInclude>
@@ -48,9 +60,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Process.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Application.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\WideString.hpp">

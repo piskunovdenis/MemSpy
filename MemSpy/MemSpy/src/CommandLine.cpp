@@ -5,7 +5,7 @@
 #include "CommandLine.hpp"
 #include "WideString.hpp"
 
-namespace ms
+namespace memspy
 {
 	const std::vector<wchar_t> CommandLine::kParamSeparators = { L'-', L'/' };
 	const std::vector<wchar_t> CommandLine::kNameValueSeparators = { L':', L'=' };
@@ -15,22 +15,22 @@ namespace ms
 	{
 	}
 
-	bool CommandLine::FindParam(std::wstring searchingParamName) const
+	bool CommandLine::FindParam(const std::wstring& searchingParamName) const
 	{
 		if (searchingParamName.empty())
 		{
 			throw std::invalid_argument("searchingParamName is empty");
 		}
 
-		for (auto i : m_Arguments)
+		for (const auto& i : m_Arguments)
 		{
 			std::wstring paramName;
 			std::wstring paramValue;
 			ParseParam(i, paramName, paramValue);
 
-			if (ms::WideString::Compare(paramName, searchingParamName) ||
-				ms::WideString::Compare(L"-" + paramName, searchingParamName) ||
-				ms::WideString::Compare(L"/" + paramName, searchingParamName))
+			if (memspy::WideString::Compare(paramName, searchingParamName) ||
+				memspy::WideString::Compare(L"-" + paramName, searchingParamName) ||
+				memspy::WideString::Compare(L"/" + paramName, searchingParamName))
 			{
 				return true;
 			}
@@ -38,20 +38,20 @@ namespace ms
 		return false;
 	}
 
-	std::wstring CommandLine::GetParamValue(std::wstring searchingParamName) const
+	std::wstring CommandLine::GetParamValue(const std::wstring& searchingParamName) const
 	{
 		if (searchingParamName.empty())
 		{
 			throw std::invalid_argument("searchingParamName is empty");
 		}
 
-		for (auto i : m_Arguments)
+		for (const auto& i : m_Arguments)
 		{
 			std::wstring paramName;
 			std::wstring paramValue;
 			ParseParam(i, paramName, paramValue);
 
-			if (ms::WideString::Compare(paramName, searchingParamName))
+			if (memspy::WideString::Compare(paramName, searchingParamName))
 			{
 				return paramValue;
 			}
@@ -59,7 +59,7 @@ namespace ms
 		return L"";
 	}
 
-	void CommandLine::ParseParam(std::wstring param, std::wstring& rParamName, std::wstring& rParamValue) const
+	void CommandLine::ParseParam(const std::wstring& param, std::wstring& rParamName, std::wstring& rParamValue) const
 	{
 		if (param.empty())
 		{

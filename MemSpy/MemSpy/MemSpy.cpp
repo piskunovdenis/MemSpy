@@ -9,8 +9,8 @@
 
 int _tmain(int argc, TCHAR** argv)
 {
-	ms::CommandLine cmd(argc, argv);
+	memspy::CommandLine cmd(argc, argv);
 
-	ms::Application app;
+	memspy::Application app;
 	return app.Run(cmd);
 }

@@ -7,7 +7,7 @@
 #include "WideString.hpp"
 #include "Path.hpp"
 
-namespace ms
+namespace memspy
 {
 	Process::Process(DWORD desiredAccess, DWORD processId) :
 		m_ProcessId(processId)
@@ -15,33 +15,9 @@ namespace ms
 		m_Handle = OpenProcess(desiredAccess, FALSE, m_ProcessId);
 	}
 
-	Process::Process(Process&& other) : 
-		m_ProcessId(0),
-		m_Handle(nullptr)
-	{
-		std::swap(m_ProcessId, other.m_ProcessId);
-		std::swap(m_ProcessId, other.m_ProcessId);
-	}
-
 	Process::~Process()
 	{
 		CloseHandle(m_Handle);
-	}
-
-	HANDLE Process::Handle() const
-	{
-		return m_Handle;
-	}
-
-	std::wstring Process::FileName() const
-	{
-		DWORD bufferLength = MAX_PATH;
-		std::vector<wchar_t> buffer(bufferLength);
-		if (QueryFullProcessImageNameW(m_Handle, 0, &buffer[0], &bufferLength))
-		{
-			return &buffer[0];
-		}
-		return L"";
 	}
 
 	void Process::EnumProcesses(std::function<bool(DWORD pid)> enumerator)
@@ -80,9 +56,9 @@ namespace ms
 				if (pid != 0)
 				{
 					Process process(PROCESS_QUERY_INFORMATION | PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_VM_READ, pid);
-					std::wstring processFileName = ms::Path::GetFileName(process.FileName());
+					std::wstring processFileName = memspy::Path::GetFileName(process.FileName());
 					{
-						if (ms::WideString::Compare(processFileName, fileName))
+						if (memspy::WideString::Compare(processFileName, fileName))
 						{
 							rProcessId = pid;
 							return true;
@@ -93,5 +69,21 @@ namespace ms
 			}
 		);
 		return rProcessId != 0;
+	}
+
+	HANDLE Process::Handle() const
+	{
+		return m_Handle;
+	}
+
+	std::wstring Process::FileName() const
+	{
+		DWORD bufferLength{ MAX_PATH };
+		std::vector<wchar_t> buffer(bufferLength);
+		if (QueryFullProcessImageNameW(m_Handle, 0, &buffer[0], &bufferLength))
+		{
+			return &buffer[0];
+		}
+		return L"";
 	}
 }

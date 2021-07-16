@@ -9,9 +9,9 @@
 #include "Console.hpp"
 #include "WideString.hpp"
 
-namespace ms
+namespace memspy
 {
-	DWORD Application::Run(ms::CommandLine cmd)
+	DWORD Application::Run(memspy::CommandLine cmd)
 	{
 		if (cmd.FindParam(L"?"))
 		{
@@ -31,28 +31,26 @@ namespace ms
 		m_UTF8Secret = WideString::UTF16ToUTF8(m_UTF16Secret);
 		m_UTF8SecretByteCount = m_UTF8Secret.length() * sizeof(char);
 
-		std::wstring filename{ cmd.GetParamValue(L"f") };
-		if (filename.empty())
+		m_ProcessFileName = cmd.GetParamValue(L"f");
+		if (m_ProcessFileName.empty())
 		{
 			return -2;
 		}
 
-		m_ProcessFileName = filename;
-
 		if (m_UseLoop = cmd.FindParam(L"l"))
 		{
-			std::wstring iter{ cmd.GetParamValue(L"i") };
-			if (!iter.empty())
+			std::wstring loopIterations{ cmd.GetParamValue(L"i") };
+			if (!loopIterations.empty())
 			{
-				m_LoopIter = std::stoul(iter);
-				if (m_LoopIter < 1)
+				m_LoopIteration = std::stoul(loopIterations);
+				if (m_LoopIteration < 1)
 				{
-					m_LoopIter = 1;
+					m_LoopIteration = 1;
 				}
 			}
 			else
 			{
-				m_LoopIter = (std::numeric_limits<DWORD>::max)();
+				m_LoopIteration = (std::numeric_limits<DWORD>::max)();
 			}
 
 			std::wstring timeout{ cmd.GetParamValue(L"t") };
@@ -70,13 +68,13 @@ namespace ms
 		std::vector<DWORD_PTR> foundUTF8Addresses;
 
 		PrintSearchingInfo();
-		while (m_LoopIter > 0)
+		while (m_LoopIteration > 0)
 		{
 			foundUTF16Addresses.clear();
 			foundUTF8Addresses.clear();
 
 			DWORD pid;
-			if (!ms::Process::IsProcessRunning(m_ProcessFileName, pid))
+			if (!memspy::Process::IsProcessRunning(m_ProcessFileName, pid))
 			{
 				PrintSearchingInfo();
 				Console::WriteLine(L"Can not find process with file name: " + m_ProcessFileName);
@@ -85,7 +83,7 @@ namespace ms
 				continue;
 			}
 
-			ms::Process process(PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_READ, pid);
+			memspy::Process process(PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_READ, pid);
 			if (process.Handle() == INVALID_HANDLE_VALUE)
 			{
 				PrintSearchingInfo();
@@ -112,7 +110,7 @@ namespace ms
 					(mbi.Protect & PAGE_READONLY) == PAGE_READONLY ||
 					(mbi.Protect & PAGE_READWRITE) == PAGE_READWRITE)
 				{
-					ms::MemoryBlock dump(mbi.RegionSize);
+					memspy::MemoryBlock dump(mbi.RegionSize);
 					SIZE_T bytesRead{ 0 };
 					ReadProcessMemory(process.Handle(), mbi.BaseAddress, dump.Memory(), mbi.RegionSize, &bytesRead);
 					if (mbi.RegionSize == bytesRead)
@@ -175,17 +173,17 @@ namespace ms
 
 	void Application::PrintSearchingInfo()
 	{
-		ms::Console::ClearScreen();
+		memspy::Console::ClearScreen();
 		Console::WriteLine(std::wstring(L"Searching secret: ") + m_UTF16Secret);
 		Console::WriteLine(L"Process file name: " + m_ProcessFileName);
 		if (m_UseLoop)
 		{
 			Console::WriteLine(L"Attempt timeout: " + std::to_wstring(m_LoopTimeout) + L" ms");
 
-			GetConsoleScreenBufferInfo(ms::Console::StdOutput(), &m_csbi);
+			GetConsoleScreenBufferInfo(memspy::Console::StdOutput(), &m_csbi);
 			m_SearchingAttemptCursorPos = m_csbi.dwCursorPosition;
 
-			Console::WriteLine(L"Searching attempt #" + std::to_wstring(m_LoopIter) + L"...");
+			Console::WriteLine(L"Searching attempt #" + std::to_wstring(m_LoopIteration) + L"...");
 		}
 		Console::WriteLine();
 	}
@@ -194,18 +192,18 @@ namespace ms
 	{
 		if (m_UseLoop)
 		{
-			GetConsoleScreenBufferInfo(ms::Console::StdOutput(), &m_csbi);
-			SetConsoleCursorPosition(ms::Console::StdOutput(), m_SearchingAttemptCursorPos);
-			Console::WriteLine(L"Searching attempt #" + std::to_wstring(m_LoopIter) + L"...");
+			GetConsoleScreenBufferInfo(memspy::Console::StdOutput(), &m_csbi);
+			SetConsoleCursorPosition(memspy::Console::StdOutput(), m_SearchingAttemptCursorPos);
+			Console::WriteLine(L"Searching attempt #" + std::to_wstring(m_LoopIteration) + L"...");
 			Console::WriteLine();
 			Console::WriteLine();
-			SetConsoleCursorPosition(ms::Console::StdOutput(), m_csbi.dwCursorPosition);
+			SetConsoleCursorPosition(memspy::Console::StdOutput(), m_csbi.dwCursorPosition);
 		}
 	}
 
 	void Application::Wait(int exitCode)
 	{
-		m_LoopIter--;
+		m_LoopIteration--;
 		if (m_UseLoop)
 		{
 			Sleep(m_LoopTimeout);
