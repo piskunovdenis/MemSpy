@@ -8,6 +8,9 @@ namespace memspy
 {
 	class CommandLine
 	{
+		static const std::vector<wchar_t> kParamSeparators;
+		static const std::vector<wchar_t> kNameValueSeparators;
+
 	public:
 		CommandLine(int argc, _TCHAR* argv[]);
 
@@ -16,9 +19,6 @@ namespace memspy
 
 	private:
 		void ParseParam(const std::wstring& param, std::wstring& rParamName, std::wstring& rParamValue) const;
-
-		static const std::vector<wchar_t> kParamSeparators;
-		static const std::vector<wchar_t> kNameValueSeparators;
 
 		std::vector<std::wstring> m_Arguments;
 	};

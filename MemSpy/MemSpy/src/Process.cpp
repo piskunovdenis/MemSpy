@@ -20,13 +20,8 @@ namespace memspy
 		CloseHandle(m_Handle);
 	}
 
-	void Process::EnumProcesses(std::function<bool(DWORD pid)> enumerator)
+	void Process::EnumProcesses(const FnProcessEnumerator enumerator)
 	{
-		if (!enumerator)
-		{
-			throw std::invalid_argument("enumerator is null");
-		}
-
 		DWORD processCount;
 		std::vector<DWORD> processIds(kMaxProcessCount);
 		if (!::EnumProcesses(&processIds[0], kMaxProcessCount * sizeof(DWORD), &processCount))
@@ -42,16 +37,16 @@ namespace memspy
 		}
 	}
 
-	bool Process::IsProcessRunning(std::wstring fileName, DWORD& rProcessId)
+	bool Process::IsProcessRunning(const std::wstring& fileName, DWORD& rProcessId)
 	{
+		rProcessId = 0;
 		if (fileName.empty())
 		{
-			throw std::invalid_argument("fileName is empty");
+			return false;
 		}
 
-		rProcessId = 0;
 		Process::EnumProcesses(
-			[fileName, &rProcessId](DWORD pid) -> bool
+			[&fileName, &rProcessId](DWORD pid) -> bool
 			{
 				if (pid != 0)
 				{
