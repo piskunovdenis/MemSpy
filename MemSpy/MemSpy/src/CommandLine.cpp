@@ -17,22 +17,20 @@ namespace memspy
 
 	bool CommandLine::FindParam(const std::wstring& searchingParamName) const
 	{
-		if (searchingParamName.empty())
+		if (!searchingParamName.empty())
 		{
-			throw std::invalid_argument("searchingParamName is empty");
-		}
-
-		for (const auto& i : m_Arguments)
-		{
-			std::wstring paramName;
-			std::wstring paramValue;
-			ParseParam(i, paramName, paramValue);
-
-			if (memspy::WideString::Compare(paramName, searchingParamName) ||
-				memspy::WideString::Compare(L"-" + paramName, searchingParamName) ||
-				memspy::WideString::Compare(L"/" + paramName, searchingParamName))
+			for (const auto& i : m_Arguments)
 			{
-				return true;
+				std::wstring paramName;
+				std::wstring paramValue;
+				ParseParam(i, paramName, paramValue);
+
+				if (memspy::WideString::Compare(paramName, searchingParamName) ||
+					memspy::WideString::Compare(L"-" + paramName, searchingParamName) ||
+					memspy::WideString::Compare(L"/" + paramName, searchingParamName))
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -40,20 +38,18 @@ namespace memspy
 
 	std::wstring CommandLine::GetParamValue(const std::wstring& searchingParamName) const
 	{
-		if (searchingParamName.empty())
+		if (!searchingParamName.empty())
 		{
-			throw std::invalid_argument("searchingParamName is empty");
-		}
-
-		for (const auto& i : m_Arguments)
-		{
-			std::wstring paramName;
-			std::wstring paramValue;
-			ParseParam(i, paramName, paramValue);
-
-			if (memspy::WideString::Compare(paramName, searchingParamName))
+			for (const auto& i : m_Arguments)
 			{
-				return paramValue;
+				std::wstring paramName;
+				std::wstring paramValue;
+				ParseParam(i, paramName, paramValue);
+
+				if (memspy::WideString::Compare(paramName, searchingParamName))
+				{
+					return paramValue;
+				}
 			}
 		}
 		return L"";
@@ -61,11 +57,6 @@ namespace memspy
 
 	void CommandLine::ParseParam(const std::wstring& param, std::wstring& rParamName, std::wstring& rParamValue) const
 	{
-		if (param.empty())
-		{
-			throw std::invalid_argument("param is empty");
-		}
-
 		rParamName = L"";
 		rParamValue = L"";
 		if (param.empty())

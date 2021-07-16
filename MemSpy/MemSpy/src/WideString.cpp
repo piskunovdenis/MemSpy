@@ -33,7 +33,7 @@ namespace memspy
 					return ret;
 			}
 		}
-		return {};
+		return "";
 	}
 
 	std::wstring WideString::ToHex(DWORD_PTR i)

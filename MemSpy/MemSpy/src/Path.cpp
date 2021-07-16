@@ -11,6 +11,6 @@ namespace memspy
 		{
 			return fileName.substr(pos + 1, fileName.length() - pos);
 		}
-		return {};
+		return L"";
 	}
 }
