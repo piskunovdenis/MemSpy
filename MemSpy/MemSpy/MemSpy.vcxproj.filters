@@ -24,7 +24,7 @@
     <ClCompile Include="Sources\MemoryBlock.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="MemSpy.cpp" />
+    <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Sources\Path.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
