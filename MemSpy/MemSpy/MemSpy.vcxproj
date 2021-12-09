@@ -152,22 +152,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MemSpy.cpp" />
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\CommandLine.cpp" />
-    <ClCompile Include="src\Console.cpp" />
-    <ClCompile Include="src\MemoryBlock.cpp" />
-    <ClCompile Include="src\Path.cpp" />
-    <ClCompile Include="src\Process.cpp" />
-    <ClCompile Include="src\WideString.cpp" />
+    <ClCompile Include="Sources\Application.cpp" />
+    <ClCompile Include="Sources\CommandLine.cpp" />
+    <ClCompile Include="Sources\Console.cpp" />
+    <ClCompile Include="Sources\MemoryBlock.cpp" />
+    <ClCompile Include="SourcesPath.cpp" />
+    <ClCompile Include="Sources\Process.cpp" />
+    <ClCompile Include="Sources\WideString.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.hpp" />
-    <ClInclude Include="src\CommandLine.hpp" />
-    <ClInclude Include="src\Console.hpp" />
-    <ClInclude Include="src\MemoryBlock.hpp" />
-    <ClInclude Include="src\Path.hpp" />
-    <ClInclude Include="src\Process.hpp" />
-    <ClInclude Include="src\WideString.hpp" />
+    <ClInclude Include="Sources\Application.hpp" />
+    <ClInclude Include="Sources\CommandLine.hpp" />
+    <ClInclude Include="Sources\Console.hpp" />
+    <ClInclude Include="Sources\MemoryBlock.hpp" />
+    <ClInclude Include="SourcesPath.hpp" />
+    <ClInclude Include="Sources\Process.hpp" />
+    <ClInclude Include="Sources\WideString.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

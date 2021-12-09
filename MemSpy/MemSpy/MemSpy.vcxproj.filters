@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="src">
+    <Filter Include="Sources">
       <UniqueIdentifier>{9a362663-1192-4668-bb4f-e45a81469532}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -21,49 +21,49 @@
     <ClCompile Include="MemSpy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Application.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Sources\Application.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\CommandLine.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Sources\CommandLine.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Process.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Sources\Process.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Path.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="SourcesPath.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\WideString.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Sources\WideString.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\Console.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Sources\Console.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\MemoryBlock.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Sources\MemoryBlock.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.hpp">
-      <Filter>src</Filter>
+    <ClInclude Include="Sources\Application.hpp">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="src\CommandLine.hpp">
-      <Filter>src</Filter>
+    <ClInclude Include="Sources\CommandLine.hpp">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Console.hpp">
-      <Filter>src</Filter>
+    <ClInclude Include="Sources\Console.hpp">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="src\MemoryBlock.hpp">
-      <Filter>src</Filter>
+    <ClInclude Include="Sources\MemoryBlock.hpp">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Path.hpp">
-      <Filter>src</Filter>
+    <ClInclude Include="SourcesPath.hpp">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="src\Process.hpp">
-      <Filter>src</Filter>
+    <ClInclude Include="Sources\Process.hpp">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="src\WideString.hpp">
-      <Filter>src</Filter>
+    <ClInclude Include="Sources\WideString.hpp">
+      <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
